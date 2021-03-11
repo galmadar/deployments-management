@@ -4,7 +4,6 @@ import {User} from "./User";
 import BaseModel from "./BaseModel";
 
 export class Deployment extends BaseModel {
-
     @prop({ref: () => Image})
     imageId?: Ref<Image>
 
@@ -12,4 +11,5 @@ export class Deployment extends BaseModel {
     userId?: Ref<User>
 }
 
-export const DeploymentModel = getModelForClass(Deployment)
+const DeploymentModel = getModelForClass(Deployment);
+export {DeploymentModel};

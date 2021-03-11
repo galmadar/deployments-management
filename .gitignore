@@ -2,3 +2,4 @@ logger.log
 dist
 .env
 node_modules
+count.txt
