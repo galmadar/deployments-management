@@ -1,6 +1,7 @@
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
+import {createDeploymentValidatorHandler} from "./requestValidatiors/DeploymentValidator";
 
 class DeploymentController extends BaseCrudController {
     constructor() {
@@ -13,7 +14,9 @@ class DeploymentController extends BaseCrudController {
     }
 
     protected initCreateDeploymentRoute() {
-        this.router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.post("/",
+            createDeploymentValidatorHandler,
+            async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     let createdDeployment = await this.service.create(req.body);
                     res.json(createdDeployment)
@@ -25,10 +28,10 @@ class DeploymentController extends BaseCrudController {
     }
 
     private initStatisticsRoutes() {
-        this.router.use("/statistics/avgPerUser", this.avgPerUser)
-        this.router.use("/statistics/avgPerImage", this.avgPerImage)
-        this.router.use("/statistics/totalDeployments", this.totalDeployments)
-        this.router.use("/statistics/totalDeploymentsPerImage", this.totalDeploymentsPerImage)
+        this.router.get("/statistics/avgPerUser", this.avgPerUser)
+        this.router.get("/statistics/avgPerImage", this.avgPerImage)
+        this.router.get("/statistics/totalDeployments", this.totalDeployments)
+        this.router.get("/statistics/totalDeploymentsPerImage", this.totalDeploymentsPerImage)
     }
 
     private avgPerUser = async (req: Request, res: Response, next: NextFunction) => {

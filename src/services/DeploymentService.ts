@@ -54,14 +54,13 @@ class DeploymentService extends BaseCrudService {
     }
 
     async totalDeploymentsPerImage() {
-        let mostCommonImages = await this.model
+        let totalDeploymentsPerImage = await this.model
             .aggregate([
                 {$group: {_id: "$imageId", count: {$sum: 1}}},
                 {$sort: {count: -1}},
                 {$limit: 2}
-            ])
-
-
+            ]);
+        return totalDeploymentsPerImage;
     }
 }
 

@@ -1,6 +1,8 @@
 import UserService from "../services/UserService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
+import {createUserValidatorHandler} from "./requestValidatiors/UserValidators";
+import {validationResultMiddleware} from "./requestValidatiors/BaseValidators";
 
 class UserController extends BaseCrudController {
     constructor() {
@@ -13,7 +15,9 @@ class UserController extends BaseCrudController {
     }
 
     protected initCreateOrUpdateRoute() {
-        this.router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.post("/",
+            createUserValidatorHandler,
+            async (req: Request, res: Response, next: NextFunction) => {
                 let createdOrUpdatedModel: any;
                 try {
                     const {_id: id} = req.body;

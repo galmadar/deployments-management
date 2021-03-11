@@ -1,6 +1,7 @@
 import ImageService from "../services/ImageService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
+import {createImageValidatorHandler} from "./requestValidatiors/ImageValidators";
 
 class ImageController extends BaseCrudController {
     constructor() {
@@ -15,7 +16,9 @@ class ImageController extends BaseCrudController {
     }
 
     protected initCreateRoute() {
-        this.router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+        this.router.post("/",
+            createImageValidatorHandler,
+            async (req: Request, res: Response, next: NextFunction) => {
                 let createdImage: any;
                 try {
                     createdImage = await this.service.create(req.body);
