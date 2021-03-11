@@ -1,7 +1,7 @@
 import * as express from "express";
 import {NextFunction, Request, Response, Router} from "express";
 import BaseCrudService from "../services/BaseCrudService";
-import {validationResultMiddleware} from "./requestValidatiors/BaseValidators";
+import {validationPaginationMiddleware, validationResultMiddleware} from "./requestValidatiors/BaseValidators";
 
 class BaseCrudController {
     service: BaseCrudService;
@@ -10,13 +10,23 @@ class BaseCrudController {
     constructor(service: BaseCrudService) {
         this.service = service;
         this.router = express.Router()
+    }
+
+    protected initDefaults(options?: { withPagination?: boolean, withFindById?: boolean }) {
+        if (options?.withPagination) {
+            this.initGetAllWithPaginationRoute();
+        }
+        if (options?.withFindById) {
+            this.initFindByIdRoute();
+        }
         if (process.env.NODE_ENV !== 'production') {
+            this.initFindAllRoute();
             this.initDeleteAllRoute()
         }
     }
 
-    protected initFindByIdRoute(handlers: any[] = []) {
-        this.router.get("/:id", ...handlers, validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    protected initFindByIdRoute() {
+        this.router.get("/:id", validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
                 const {id} = req.params
                 let foundModel
                 try {
@@ -29,8 +39,8 @@ class BaseCrudController {
         )
     }
 
-    protected initFindAllRoute(handlers: any[] = []) {
-        this.router.get("/", ...handlers, validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    protected initFindAllRoute() {
+        this.router.get("/", validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     let allModels = await this.service.findAll();
                     res.json(allModels)
@@ -41,8 +51,11 @@ class BaseCrudController {
         )
     }
 
-    protected initGetAllWithPaginationRoute(handlers: any[] = []) {
-        this.router.get("/:pageNumber/:rowsInPage", ...handlers, validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    protected initGetAllWithPaginationRoute() {
+        this.router.get("/:pageNumber/:rowsInPage",
+            validationPaginationMiddleware,
+            validationResultMiddleware,
+            async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     const {rowsInPage, pageNumber} = req.params;
                     const nRowsInPage = Number.parseInt(rowsInPage)
@@ -56,8 +69,8 @@ class BaseCrudController {
         )
     }
 
-    private initDeleteAllRoute(handlers: any[] = []) {
-        this.router.delete("/", ...handlers, validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    private initDeleteAllRoute() {
+        this.router.delete("/", validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     let deletedAll = await this.service.deleteAll();
                     res.json(deletedAll)

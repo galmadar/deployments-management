@@ -6,13 +6,40 @@ import {createImageValidatorHandler} from "./requestValidatiors/ImageValidators"
 class ImageController extends BaseCrudController {
     constructor() {
         super(ImageService);
+
         this.initGetSecondCommonImageRoute();
-        this.initGetAllWithPaginationRoute();
         this.initGetCombinationByLengthRoute();
-        this.initFindByIdRoute();
+        this.initDefaults({withPagination: true, withFindById: true});
         this.initCreateRoute();
         this.initUpdateRoute();
-        this.initFindAllRoute();
+    }
+
+    protected initGetSecondCommonImageRoute() {
+        this.router.get("/secondMostCommon", async (req: Request, res: Response, next: NextFunction) => {
+                try {
+                    let imageService = this.service as typeof ImageService;
+                    let secondCommonImage = await imageService.getSecondCommonImage();
+                    res.json(secondCommonImage)
+                } catch (err) {
+                    res.send("Error in getting secondCommonImageRoute")
+                }
+            }
+        )
+    }
+
+    protected initGetCombinationByLengthRoute() {
+        this.router.get("/combination/:length", async (req: Request, res: Response, next: NextFunction) => {
+                try {
+                    const {length} = req.params;
+                    const nLength = Number.parseInt(length);
+                    let imageService = this.service as typeof ImageService;
+                    let combinations = await imageService.getCombinationByLength(nLength);
+                    res.json(combinations)
+                } catch (err) {
+                    res.send("Error in getting initGetCombinationByLengthRoute")
+                }
+            }
+        )
     }
 
     protected initCreateRoute() {
@@ -39,34 +66,6 @@ class ImageController extends BaseCrudController {
                     res.json(updatedImage)
                 } catch (err) {
                     res.status(500)
-                }
-            }
-        )
-    }
-
-    protected initGetSecondCommonImageRoute() {
-        this.router.get("/secondMostCommon", async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    let imageService = this.service as typeof ImageService;
-                    let secondCommonImage = await imageService.getSecondCommonImage();
-                    res.json(secondCommonImage)
-                } catch (err) {
-                    res.send("Error in getting secondCommonImageRoute")
-                }
-            }
-        )
-    }
-
-    protected initGetCombinationByLengthRoute() {
-        this.router.get("/combination/:length", async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    const {length} = req.params;
-                    const nLength = Number.parseInt(length);
-                    let imageService = this.service as typeof ImageService;
-                    let combinations = await imageService.getCombinationByLength(nLength);
-                    res.json(combinations)
-                } catch (err) {
-                    res.send("Error in getting initGetCombinationByLengthRoute")
                 }
             }
         )

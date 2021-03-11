@@ -2,16 +2,13 @@ import UserService from "../services/UserService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import {createUserValidatorHandler} from "./requestValidatiors/UserValidators";
-import {validationResultMiddleware} from "./requestValidatiors/BaseValidators";
 
 class UserController extends BaseCrudController {
     constructor() {
         super(UserService);
-        this.initFindByIdRoute();
+
+        this.initDefaults({withFindById: true});
         this.initCreateOrUpdateRoute();
-        if (process.env.NODE_ENV !== "production") {
-            this.initFindAllRoute()
-        }
     }
 
     protected initCreateOrUpdateRoute() {
@@ -22,9 +19,9 @@ class UserController extends BaseCrudController {
                 try {
                     const {_id: id} = req.body;
                     if (id) {
-                        const model = {...req.body}
-                        delete model.id
-                        createdOrUpdatedModel = await this.service.updateById(id, model)
+                        const model = {...req.body};
+                        delete model._id;
+                        createdOrUpdatedModel = await this.service.updateById(id, model);
                     } else {
                         createdOrUpdatedModel = await this.service.create(req.body);
                     }

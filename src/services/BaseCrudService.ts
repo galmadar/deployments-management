@@ -28,6 +28,8 @@ export default class BaseCrudService {
     }
 
     updateById(id: string, model: any) {
+        delete model._id;
+        delete model.createdAt;
         return this.model.findByIdAndUpdate(id, model, {new: true});
     }
 

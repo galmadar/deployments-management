@@ -6,10 +6,9 @@ import {createDeploymentValidatorHandler} from "./requestValidatiors/DeploymentV
 class DeploymentController extends BaseCrudController {
     constructor() {
         super(DeploymentService);
-        this.initFindByIdRoute();
-        this.initFindAllRoute();
-        this.initGetAllWithPaginationRoute();
-        this.initCreateDeploymentRoute()
+
+        this.initDefaults({withPagination: true});
+        this.initCreateDeploymentRoute();
         this.initStatisticsRoutes();
     }
 
