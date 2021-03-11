@@ -19,6 +19,19 @@ export default class BaseCrudService {
         return this.model.find({});
     }
 
+    getAllWithPagination = async (rowsInPage: number, pageNumber: number) => {
+        try {
+            const startIndex = (pageNumber - 1) * rowsInPage
+            return await this.model
+                .find()
+                .sort({createdAt: 1})
+                .skip(startIndex)
+                .limit(rowsInPage)
+        } catch (err) {
+
+        }
+    }
+
     updateById(id: string, model: any) {
         return this.model.findByIdAndUpdate(id, model, {new: true});
     }

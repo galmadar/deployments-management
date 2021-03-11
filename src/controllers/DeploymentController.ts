@@ -7,6 +7,7 @@ class DeploymentController extends BaseCrudController {
         super(DeploymentService);
         this.initFindByIdRoute();
         this.initFindAllRoute();
+        this.initGetAllWithPaginationRoute();
         this.initCreateDeploymentRoute()
     }
 

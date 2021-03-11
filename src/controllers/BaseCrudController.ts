@@ -1,7 +1,6 @@
 import * as express from "express";
 import {NextFunction, Request, Response, Router} from "express";
 import BaseCrudService from "../services/BaseCrudService";
-import logger from "../logger/logger";
 
 class BaseCrudController {
     protected service: BaseCrudService;
@@ -36,6 +35,21 @@ class BaseCrudController {
                     res.json(allModels)
                 } catch (err) {
                     res.status(500)
+                }
+            }
+        )
+    }
+
+    protected initGetAllWithPaginationRoute() {
+        this.router.get("/pagination/:pageNumber/:rowsInPage", async (req: Request, res: Response, next: NextFunction) => {
+                try {
+                    const {rowsInPage, pageNumber} = req.params;
+                    const nRowsInPage = Number.parseInt(rowsInPage)
+                    const nPageNumber = Number.parseInt(pageNumber)
+                    let pagination = await this.service.getAllWithPagination(nRowsInPage, nPageNumber);
+                    res.json(pagination)
+                } catch (err) {
+                    res.send("Error in getting initGetAllWithPaginationRoute")
                 }
             }
         )

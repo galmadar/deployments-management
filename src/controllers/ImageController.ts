@@ -54,22 +54,6 @@ class ImageController extends BaseCrudController {
         )
     }
 
-    protected initGetAllWithPaginationRoute() {
-        this.router.get("/pagination/:rowsInPage/:pageNumber", async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    const {rowsInPage, pageNumber} = req.params;
-                    const nRowsInPage = Number.parseInt(rowsInPage)
-                    const nPageNumber = Number.parseInt(pageNumber)
-                    let imageService = this.service as typeof ImageService;
-                    let pagination = await imageService.getAllWithPagination(nRowsInPage, nPageNumber);
-                    res.json(pagination)
-                } catch (err) {
-                    res.send("Error in getting secondCommonImageRoute")
-                }
-            }
-        )
-    }
-
     protected initGetCombinationByLengthRoute() {
         this.router.get("/combination/:length", async (req: Request, res: Response, next: NextFunction) => {
                 try {

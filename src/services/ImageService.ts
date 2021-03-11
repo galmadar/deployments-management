@@ -22,20 +22,6 @@ class ImageService extends BaseCrudService {
         }
     }
 
-    getAllWithPagination = async (rowsInPage: number, pageNumber: number) => {
-        try {
-            const startIndex = (pageNumber - 1) * rowsInPage
-            let imageModel = this.model as typeof ImageModel;
-            return await imageModel
-                .find()
-                .sort({createdAt: 1})
-                .skip(startIndex)
-                .limit(rowsInPage)
-        } catch (err) {
-
-        }
-    }
-
     getCombinationByLength = async (length: number) => {
         let imageModel = this.model as typeof ImageModel;
         let mostCommonImages = await imageModel.aggregate([
