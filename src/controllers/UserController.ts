@@ -1,38 +1,31 @@
 import UserService from "../services/UserService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
-import {createUserValidatorHandler} from "./requestValidatiors/UserValidators";
+import {createUserValidatorHandler} from "../middlewares/requestValidatiors/userValidators";
+import asyncMiddleware from "../middlewares/async.middleware";
 
 class UserController extends BaseCrudController {
     constructor() {
         super(UserService);
 
         this.initDefaults({withFindById: true});
-        this.initCreateOrUpdateRoute();
+        this.router.post("/", createUserValidatorHandler, asyncMiddleware(this.createOrUpdate));
     }
 
-    protected initCreateOrUpdateRoute() {
-        this.router.post("/",
-            createUserValidatorHandler,
-            async (req: Request, res: Response, next: NextFunction) => {
-                let createdOrUpdatedModel: any;
-                try {
-                    const {_id: id} = req.body;
-                    if (id) {
-                        const model = {...req.body};
-                        delete model._id;
-                        createdOrUpdatedModel = await this.service.updateById(id, model);
-                    } else {
-                        createdOrUpdatedModel = await this.service.create(req.body);
-                    }
+    createOrUpdate = async (req: Request, res: Response, next: NextFunction) => {
+        let createdOrUpdatedModel: any;
+        const {_id: id} = req.body;
+        if (id) {
+            const model = {...req.body};
+            delete model._id;
+            createdOrUpdatedModel = await this.service.updateById(id, model);
+        } else {
+            createdOrUpdatedModel = await this.service.create(req.body);
+        }
 
-                    res.json(createdOrUpdatedModel)
-                } catch (err) {
-                    res.status(500)
-                }
-            }
-        )
-    }
+        res.json(createdOrUpdatedModel)
+    };
+
 }
 
 let userRouter = new UserController().router;

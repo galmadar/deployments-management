@@ -1,4 +1,5 @@
 import * as express from "express";
+import {NextFunction, Request, Response} from "express";
 import * as session from "express-session";
 import * as bodyParser from "body-parser";
 import MongoStore from 'connect-mongo';
@@ -9,7 +10,8 @@ import userRouter from "./controllers/UserController";
 import imageRouter from "./controllers/ImageController";
 import * as morgan from "morgan";
 import deploymentRouter from "./controllers/DeploymentController";
-import * as listEndpoints from "express-list-endpoints";
+import {Error} from "mongoose";
+import {Boom} from "@hapi/boom";
 
 // Create Express server
 const app = express();
@@ -53,7 +55,18 @@ app.use("/image", imageRouter)
 app.use("/deployment", deploymentRouter)
 
 if (process.env.NODE_ENV !== "production") {
-    console.log(listEndpoints(app))
+    // console.log(listEndpoints(app))
 }
+
+let errorHandler = (err: Error | Boom, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof Boom && err.isBoom) {
+        let output = err.output;
+        res.status(output.statusCode).json(output.payload)
+    } else {
+        res.status(500).json({message: 'server error'});
+    }
+};
+
+app.use(errorHandler)
 
 export default app;

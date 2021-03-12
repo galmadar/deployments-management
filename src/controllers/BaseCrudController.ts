@@ -1,7 +1,8 @@
 import * as express from "express";
 import {NextFunction, Request, Response, Router} from "express";
 import BaseCrudService from "../services/BaseCrudService";
-import {validationPaginationMiddleware, validationResultMiddleware} from "./requestValidatiors/BaseValidators";
+import {validationPaginationMiddleware, validationResultMiddleware} from "../middlewares/requestValidatiors/baseValidators";
+import asyncMiddleware from "../middlewares/async.middleware";
 
 class BaseCrudController {
     service: BaseCrudService;
@@ -14,72 +15,41 @@ class BaseCrudController {
 
     protected initDefaults(options?: { withPagination?: boolean, withFindById?: boolean }) {
         if (options?.withPagination) {
-            this.initGetAllWithPaginationRoute();
+            this.router.get("/:pageNumber/:rowsInPage", validationPaginationMiddleware, validationResultMiddleware, asyncMiddleware(this.getAllWithPagination));
         }
         if (options?.withFindById) {
-            this.initFindByIdRoute();
+            this.router.get("/:id", validationResultMiddleware, asyncMiddleware(this.findById))
         }
         if (process.env.NODE_ENV !== 'production') {
-            this.initFindAllRoute();
-            this.initDeleteAllRoute()
+            this.router.get("/", validationResultMiddleware, asyncMiddleware(this.findAll));
+            this.router.delete("/", validationResultMiddleware, asyncMiddleware(this.deleteAll));
         }
     }
 
-    protected initFindByIdRoute() {
-        this.router.get("/:id", validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-                const {id} = req.params
-                let foundModel
-                try {
-                    foundModel = await this.service.findById(id)
-                    res.json(foundModel)
-                } catch (err) {
-                    res.status(204)
-                }
-            }
-        )
-    }
+    findById = async (req: Request, res: Response, next: NextFunction) => {
+        const {id} = req.params
+        let foundModel = await this.service.findById(id);
+        res.json(foundModel)
+    };
 
-    protected initFindAllRoute() {
-        this.router.get("/", validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    let allModels = await this.service.findAll();
-                    res.json(allModels)
-                } catch (err) {
-                    res.status(500)
-                }
-            }
-        )
-    }
+    findAll = async (req: Request, res: Response, next: NextFunction) => {
+        let allModels = await this.service.findAll();
+        res.json(allModels)
+    };
 
-    protected initGetAllWithPaginationRoute() {
-        this.router.get("/:pageNumber/:rowsInPage",
-            validationPaginationMiddleware,
-            validationResultMiddleware,
-            async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    const {rowsInPage, pageNumber} = req.params;
-                    const nRowsInPage = Number.parseInt(rowsInPage)
-                    const nPageNumber = Number.parseInt(pageNumber)
-                    let pagination = await this.service.getAllWithPagination(nRowsInPage, nPageNumber);
-                    res.json(pagination)
-                } catch (err) {
-                    res.send("Error in getting initGetAllWithPaginationRoute")
-                }
-            }
-        )
-    }
+    deleteAll = async (req: Request, res: Response, next: NextFunction) => {
+        let deletedAll = await this.service.deleteAll();
+        res.json(deletedAll)
+    };
 
-    private initDeleteAllRoute() {
-        this.router.delete("/", validationResultMiddleware, async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    let deletedAll = await this.service.deleteAll();
-                    res.json(deletedAll)
-                } catch (err) {
-                    res.status(500)
-                }
-            }
-        )
-    }
+    getAllWithPagination = async (req: Request, res: Response, next: NextFunction) => {
+        const {rowsInPage, pageNumber} = req.params;
+        const nRowsInPage = Number.parseInt(rowsInPage)
+        const nPageNumber = Number.parseInt(pageNumber)
+        let pagination = await this.service.getAllWithPagination(nRowsInPage, nPageNumber);
+        res.json(pagination)
+    };
+
 }
 
 

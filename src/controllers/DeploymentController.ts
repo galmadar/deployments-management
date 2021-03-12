@@ -1,36 +1,32 @@
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
-import {createDeploymentValidatorHandler} from "./requestValidatiors/DeploymentValidator";
+import {createDeploymentValidatorHandler} from "../middlewares/requestValidatiors/deploymentValidator";
+import asyncMiddleware from "../middlewares/async.middleware";
 
 class DeploymentController extends BaseCrudController {
     constructor() {
         super(DeploymentService);
 
-        this.initDefaults({withPagination: true});
-        this.initCreateDeploymentRoute();
         this.initStatisticsRoutes();
+        this.initDefaults({withPagination: true});
+        this.router.post("/", createDeploymentValidatorHandler, asyncMiddleware(this.createDeployment))
     }
 
-    protected initCreateDeploymentRoute() {
-        this.router.post("/",
-            createDeploymentValidatorHandler,
-            async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    let createdDeployment = await this.service.create(req.body);
-                    res.json(createdDeployment)
-                } catch (err) {
-                    res.status(500)
-                }
-            }
-        )
+    createDeployment = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            let createdDeployment = await this.service.create(req.body);
+            res.json(createdDeployment)
+        } catch (err) {
+            res.status(500)
+        }
     }
 
     private initStatisticsRoutes() {
-        this.router.get("/statistics/avgPerUser", this.avgPerUser)
-        this.router.get("/statistics/avgPerImage", this.avgPerImage)
-        this.router.get("/statistics/totalDeployments", this.totalDeployments)
-        this.router.get("/statistics/totalDeploymentsPerImage", this.totalDeploymentsPerImage)
+        this.router.get("/statistics/avgPerUser", asyncMiddleware(this.avgPerUser));
+        this.router.get("/statistics/avgPerImage", asyncMiddleware(this.avgPerImage));
+        this.router.get("/statistics/totalDeployments", asyncMiddleware(this.totalDeployments));
+        this.router.get("/statistics/totalDeploymentsPerImage", asyncMiddleware(this.totalDeploymentsPerImage));
     }
 
     private avgPerUser = async (req: Request, res: Response, next: NextFunction) => {
