@@ -3,3 +3,7 @@ dist
 .env
 node_modules
 count.txt
+
+# Temp files for combination excersize
+combination.js
+report.*.json

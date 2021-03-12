@@ -1,7 +1,7 @@
 import ImageService from "../services/ImageService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
-import {createImageValidatorHandler} from "../middlewares/requestValidatiors/imageValidators";
+import {combinationValidator, createImageValidator} from "../middlewares/requestValidatiors/imageValidators";
 import asyncMiddleware from "../middlewares/async/async.middleware";
 
 class ImageController extends BaseCrudController {
@@ -9,9 +9,9 @@ class ImageController extends BaseCrudController {
         super(ImageService);
 
         this.router.get("/secondMostCommon", asyncMiddleware(this.getSecondCommonImage))
-        this.router.get("/combination/:length", asyncMiddleware(this.getCombinationByLength))
-        this.initDefaults({withPagination: true, withFindById: true});
-        this.router.post("/", createImageValidatorHandler, asyncMiddleware(this.createImage))
+        this.router.get("/combination/:length", combinationValidator, asyncMiddleware(this.getCombinationByLength))
+        this.initDefaults({withPagination: {}, withFindById: true});
+        this.router.post("/", createImageValidator, asyncMiddleware(this.createImage))
         this.router.put("/:id", this.updateImage)
     }
 
@@ -23,9 +23,8 @@ class ImageController extends BaseCrudController {
 
     getCombinationByLength = async (req: Request, res: Response, next: NextFunction) => {
         const {length} = req.params;
-        const nLength = Number.parseInt(length);
         let imageService = this.service as typeof ImageService;
-        let combinations = await imageService.getCombinationByLength(nLength);
+        let combinations = await imageService.getCombinationByLength(Number.parseInt(length));
         res.json(combinations)
     }
 

@@ -10,7 +10,7 @@ class BaseCrudController extends BaseController {
         super(service);
     }
 
-    protected initDefaults(options?: { withPagination?: { handlers: any[] }, withFindById?: boolean }) {
+    protected initDefaults(options?: { withPagination?: { handlers?: any[] }, withFindById?: boolean }) {
         if (options?.withPagination) {
             this.router.get("/:pageNumber/:rowsInPage", validationPaginationMiddleware, ...(options.withPagination.handlers || []), asyncMiddleware(this.getAllWithPagination));
         }
