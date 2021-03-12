@@ -1,7 +1,7 @@
-import {getModelForClass, prop} from "@typegoose/typegoose";
+import {getModelForClass, index, prop} from "@typegoose/typegoose";
 import BaseModel from "./BaseModel";
-import logger from "../../logger/logger";
 
+@index({name: 1})
 export class Image extends BaseModel {
 
     @prop()
@@ -15,8 +15,4 @@ export class Image extends BaseModel {
 }
 
 const ImageModel = getModelForClass(Image)
-ImageModel.schema.index({name: 1})
-ImageModel.createIndexes().then(() => {
-    logger.debug("Index created for ImageModel");
-})
 export {ImageModel}

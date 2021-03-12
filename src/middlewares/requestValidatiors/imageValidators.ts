@@ -1,5 +1,5 @@
 import {body} from "express-validator";
-import {validationResultMiddleware} from "./BaseValidators";
+import {validationResultMiddleware} from "./baseValidators";
 
 export const createImageValidatorHandler = [
     body('name').not().isEmpty(),

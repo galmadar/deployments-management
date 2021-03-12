@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {param, body, validationResult} from "express-validator";
+import {param, validationResult} from "express-validator";
 
 export const validationPaginationMiddleware = [
     param('pageNumber').isNumeric({no_symbols: true}),
