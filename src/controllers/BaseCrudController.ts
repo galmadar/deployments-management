@@ -1,28 +1,25 @@
-import * as express from "express";
-import {NextFunction, Request, Response, Router} from "express";
+import {NextFunction, Request, Response} from "express";
 import BaseCrudService from "../services/BaseCrudService";
-import {validationPaginationMiddleware, validationResultMiddleware} from "../middlewares/requestValidatiors/baseValidators";
-import asyncMiddleware from "../middlewares/async.middleware";
+import {validationPaginationMiddleware} from "../middlewares/requestValidatiors/baseValidators";
+import asyncMiddleware from "../middlewares/async/async.middleware";
+import BaseController from "./BaseController";
 
-class BaseCrudController {
-    service: BaseCrudService;
-    router: Router;
+class BaseCrudController extends BaseController {
 
     constructor(service: BaseCrudService) {
-        this.service = service;
-        this.router = express.Router()
+        super(service);
     }
 
-    protected initDefaults(options?: { withPagination?: boolean, withFindById?: boolean }) {
+    protected initDefaults(options?: { withPagination?: { handlers: any[] }, withFindById?: boolean }) {
         if (options?.withPagination) {
-            this.router.get("/:pageNumber/:rowsInPage", validationPaginationMiddleware, validationResultMiddleware, asyncMiddleware(this.getAllWithPagination));
+            this.router.get("/:pageNumber/:rowsInPage", validationPaginationMiddleware, ...(options.withPagination.handlers || []), asyncMiddleware(this.getAllWithPagination));
         }
         if (options?.withFindById) {
-            this.router.get("/:id", validationResultMiddleware, asyncMiddleware(this.findById))
+            this.router.get("/:id", asyncMiddleware(this.findById))
         }
         if (process.env.NODE_ENV !== 'production') {
-            this.router.get("/", validationResultMiddleware, asyncMiddleware(this.findAll));
-            this.router.delete("/", validationResultMiddleware, asyncMiddleware(this.deleteAll));
+            this.router.get("/", asyncMiddleware(this.findAll));
+            this.router.delete("/", asyncMiddleware(this.deleteAll));
         }
     }
 

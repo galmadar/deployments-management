@@ -1,6 +1,6 @@
 import {badData, badRequest, Boom, boomify} from "@hapi/boom";
 import {NextFunction, Request, Response} from 'express';
-import logger from "../logger/logger";
+import logger from "../../utils/Logger";
 
 const asyncMiddleware = (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) => {
     return (req: Request, res: Response, next: NextFunction) => {

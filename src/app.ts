@@ -1,23 +1,19 @@
 import * as express from "express";
-import {NextFunction, Request, Response} from "express";
-import * as session from "express-session";
 import * as bodyParser from "body-parser";
-import MongoStore from 'connect-mongo';
 import * as passport from "passport";
 import MongoConnector from "./db/MongoConnector";
-import logger from "./logger/logger";
+import logger from "./utils/Logger";
 import userRouter from "./controllers/UserController";
 import imageRouter from "./controllers/ImageController";
 import * as morgan from "morgan";
 import deploymentRouter from "./controllers/DeploymentController";
-import {Error} from "mongoose";
-import {Boom} from "@hapi/boom";
-import {JwtTokenSecret} from "./config/jwtConfig";
-import * as jwt from "jsonwebtoken";
+import adminRouter from "./controllers/AdminController";
+import {errorHandlerMiddleware} from "./middlewares/errors/errorHandlerMiddleware";
+import {AdminModel} from "./db/models/Admin";
+import {initAdminProps} from "./config/adminConfig";
 
 /* Import passport in order to "init" the strategies */
 import "./middlewares/passport/passport"
-import {Admin} from "./db/models/Admin";
 
 // Create Express server
 const app = express();
@@ -35,76 +31,43 @@ mongoConnector.connect(mongoUrl)
 
 // Express configuration
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: "SESSION_SECRET",
-    store: MongoStore.create({
-        mongoUrl: mongoUrl
-    })
-}));
+
+/* Setup passport for [Admin] Authentication */
 app.use(passport.initialize());
-app.use(passport.session());
 
-// app.use(lusca.xframe("SAMEORIGIN"));
-// app.use(lusca.xssProtection(true));
-// app.use((req, res, next) => {
-//     res.locals.user = req.user;
-//     next();
-// });
-
-// setup the logger
+/* Setup request logger */
 app.use(morgan('tiny'))
 
-app.use("/user", userRouter)
-app.use("/image", imageRouter)
-app.use("/deployment", deploymentRouter)
+/* Setup routes */
+app.use("/user", userRouter);
+app.use("/image", imageRouter);
+app.use("/deployment", deploymentRouter);
+app.use("/admin", adminRouter);
 
-app.post('/login', function (req, res, next) {
-    passport.authenticate('local', {session: false}, (err, user, info) => {
-        logger.info("auth!!")
-        logger.info({user})
-        if (err || !user) {
-            return res.status(400).json({
-                info,
-                message: 'Something is not right',
-                user: user
-            });
-        }
-        req.login(user, {session: false}, (err) => {
-            if (err) {
-                res.send(err);
-            }
-            // generate a signed son web token with the contents of user object and return it in the response
-            const {_id, userName, password} = user as Admin
-            const token = jwt.sign({id: _id, userName, password}, JwtTokenSecret);
-            return res.json({user, token});
-        });
-    })(req, res);
-});
-
-app.post("/withAuth", passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    res.send({hello: "world"})
-})
-
-app.post("/withoutAuth", (req, res, next) => {
-    res.send({hello: "world"})
-})
+/* Setup error handling middleware */
+app.use(errorHandlerMiddleware)
 
 if (process.env.NODE_ENV !== "production") {
     // console.log(listEndpoints(app))
 }
 
-let errorHandler = (err: Error | Boom, req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof Boom && err.isBoom) {
-        let output = err.output;
-        res.status(output.statusCode).json(output.payload)
-    } else {
-        res.status(500).json({message: 'server error'});
+const initAdmin = async () => {
+    const {userName, password} = initAdminProps;
+    let initializedAdmin = await AdminModel.findOne({userName, password});
+    if (!initializedAdmin) {
+        initializedAdmin = await AdminModel.create({userName, password});
     }
-};
 
-app.use(errorHandler)
+    return initializedAdmin
+}
+
+initAdmin()
+    .then(admin => {
+        logger.debug("Created admin:")
+        logger.debug(admin)
+    })
+    .catch(err => {
+        logger.error("Error on creating first admin", err)
+    })
 
 export default app;

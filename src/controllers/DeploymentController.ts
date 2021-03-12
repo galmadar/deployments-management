@@ -1,15 +1,17 @@
 import BaseCrudController from "./BaseCrudController";
+import * as express from "express";
 import {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
 import {createDeploymentValidatorHandler} from "../middlewares/requestValidatiors/deploymentValidator";
-import asyncMiddleware from "../middlewares/async.middleware";
+import asyncMiddleware from "../middlewares/async/async.middleware";
+import {jwtAuthenticationMiddleware} from "../middlewares/passport/authenticationMiddlewares";
 
 class DeploymentController extends BaseCrudController {
     constructor() {
         super(DeploymentService);
 
         this.initStatisticsRoutes();
-        this.initDefaults({withPagination: true});
+        this.initDefaults({withPagination: {handlers: [jwtAuthenticationMiddleware]}});
         this.router.post("/", createDeploymentValidatorHandler, asyncMiddleware(this.createDeployment))
     }
 
@@ -23,10 +25,12 @@ class DeploymentController extends BaseCrudController {
     }
 
     private initStatisticsRoutes() {
-        this.router.get("/statistics/avgPerUser", asyncMiddleware(this.avgPerUser));
-        this.router.get("/statistics/avgPerImage", asyncMiddleware(this.avgPerImage));
-        this.router.get("/statistics/totalDeployments", asyncMiddleware(this.totalDeployments));
-        this.router.get("/statistics/totalDeploymentsPerImage", asyncMiddleware(this.totalDeploymentsPerImage));
+        const statisticsRouter = express.Router();
+        statisticsRouter.get("/avgPerUser", asyncMiddleware(this.avgPerUser));
+        statisticsRouter.get("/avgPerImage", asyncMiddleware(this.avgPerImage));
+        statisticsRouter.get("/totalDeployments", asyncMiddleware(this.totalDeployments));
+        statisticsRouter.get("/totalDeploymentsPerImage", asyncMiddleware(this.totalDeploymentsPerImage));
+        this.router.use("/statistics", jwtAuthenticationMiddleware, statisticsRouter);
     }
 
     private avgPerUser = async (req: Request, res: Response, next: NextFunction) => {

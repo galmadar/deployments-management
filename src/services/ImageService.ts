@@ -1,6 +1,6 @@
 import {ImageModel} from "../db/models/Image";
 import BaseCrudService from "./BaseCrudService";
-import logger from "../logger/logger";
+import logger from "../utils/Logger";
 
 class ImageService extends BaseCrudService {
     constructor() {

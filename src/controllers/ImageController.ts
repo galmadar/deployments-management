@@ -2,7 +2,7 @@ import ImageService from "../services/ImageService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import {createImageValidatorHandler} from "../middlewares/requestValidatiors/imageValidators";
-import asyncMiddleware from "../middlewares/async.middleware";
+import asyncMiddleware from "../middlewares/async/async.middleware";
 
 class ImageController extends BaseCrudController {
     constructor() {

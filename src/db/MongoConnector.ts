@@ -1,7 +1,7 @@
 import {Mongoose} from "mongoose";
 import * as mongoose from "mongoose";
 import * as bluebird from "bluebird";
-import logger from "../logger/logger";
+import logger from "../utils/Logger";
 
 export default class MongoConnector {
     connect(mongoUrl: string) {
