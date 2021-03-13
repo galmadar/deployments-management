@@ -1,18 +1,19 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import {Mongoose} from "mongoose";
-import * as bluebird from "bluebird";
+import bluebird from "bluebird";
 import logger from "../utils/Logger";
+import dbConfig from "../config/dbConfig";
 
 class MongoConnector {
-    mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/deployments";
+    mongoUrl = dbConfig.getMongoUrl();
 
-    connect() {
-        logger.info(`connecting to mongo with url ${this.mongoUrl}`);
+    connect(connectionString: string = this.mongoUrl) {
+        logger.info(`connecting to mongo with url ${connectionString}`);
         (mongoose as Mongoose).Promise = bluebird;
         return mongoose
-            .connect(this.mongoUrl, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
+            .connect(connectionString, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
             .then((mongo) => {
-                logger.debug(`connected to mongo with URL: ${this.mongoUrl}`);
+                logger.debug(`connected to mongo with URL: ${connectionString}`);
             });
     }
 }

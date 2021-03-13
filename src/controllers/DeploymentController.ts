@@ -1,5 +1,5 @@
 import BaseCrudController from "./BaseCrudController";
-import * as express from "express";
+import express from "express";
 import {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
 import {createDeploymentValidatorHandler} from "../middlewares/requestValidatiors/deploymentValidator";

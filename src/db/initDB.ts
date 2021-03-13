@@ -2,7 +2,7 @@ import {initAdminProps} from "../config/adminConfig";
 import {AdminModel} from "./models/Admin";
 import logger from "../utils/Logger";
 
-function initAdmin() {
+function initDB() {
     const {userName, password} = initAdminProps;
     AdminModel.findOne({userName, password})
         .then((foundAdmin) => {
@@ -28,4 +28,4 @@ function initAdmin() {
         });
 }
 
-export {initAdmin};
+export {initDB};

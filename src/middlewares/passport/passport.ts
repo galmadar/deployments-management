@@ -1,7 +1,7 @@
-import * as passport from "passport";
-import * as passportLocal from "passport-local";
+import passport from "passport";
+import passportLocal from "passport-local";
 import {AdminModel} from "../../db/models/Admin";
-import * as passportJWT from "passport-jwt";
+import passportJWT from "passport-jwt";
 import {JwtTokenSecret} from "../../config/jwtConfig";
 import logger from "../../utils/Logger";
 

@@ -6,6 +6,5 @@
 15. indexes on DB ✅
 20. config from env ✅
 30. init from docker ✅
-40. tests
-45. clean code
-50. scale
+40. tests ✅
+45. clean code ✅

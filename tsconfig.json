@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "target": "es6",
     "noImplicitAny": true,
     "sourceMap": true,
     "outDir": "dist",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*"

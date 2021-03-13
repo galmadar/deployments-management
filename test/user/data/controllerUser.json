@@ -1,0 +1,7 @@
+{
+    "name": "controller-test-user",
+    "email": "ctrl-test@user.com",
+    "metaData": {
+        "type": "cool one"
+    }
+}

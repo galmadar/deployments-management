@@ -1,7 +1,7 @@
 import BaseController from "./BaseController";
-import * as passport from "passport";
+import passport from "passport";
 import {Admin} from "../db/models/Admin";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import {JwtTokenSecret} from "../config/jwtConfig";
 import {adminLoginValidator, createAdminValidator} from "../middlewares/requestValidatiors/adminValidators";
 import {NextFunction, Request, Response} from "express";
