@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "target": "es6",
     "noImplicitAny": true,
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

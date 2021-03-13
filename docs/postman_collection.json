@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"gaaasdsd2l2\",\n    \"email\":\"gma23123amg@ail.co\"\n}",
+							"raw": "{\n    \"name\":\"gal3\",\n    \"email\":\"gma33@ail.co\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -122,208 +122,6 @@
 			]
 		},
 		{
-			"name": "deployment",
-			"item": [
-				{
-					"name": "statistics",
-					"item": [
-						{
-							"name": "totalDeployments",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/deployment/statistics/totalDeployments",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"deployment",
-										"statistics",
-										"totalDeployments"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "totalDeployments Copy",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/deployment/statistics/totalDeployments",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"deployment",
-										"statistics",
-										"totalDeployments"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Create Or Update Deployment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"imageId\":\"6049272daf8a60662fe84d24\",\n    \"userId\":\"6049e17f906bac695a58e20f\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/deployment",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"deployment"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "FindById [Deployment]",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/deployment/6049e208c6929a699824b0f4",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"deployment",
-								"6049e208c6929a699824b0f4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Deployments with pagination",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "JWT",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/deployment/4/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"deployment",
-								"4",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteAll [Deployment]",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/user",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"user"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "image",
 			"item": [
 				{
@@ -333,7 +131,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"2\",\n    \"repository\": \"asdasdsad\",\n    \"version\": \"1.0.1\"\n}",
+							"raw": "{\n    \"name\": \"node\",\n    \"repository\": \"asdasdsad\",\n    \"version\": \"1.0.1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -410,6 +208,35 @@
 					"response": []
 				},
 				{
+					"name": "FindAll [Image]",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/image",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Second Most Common Image",
 					"request": {
 						"method": "GET",
@@ -445,14 +272,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/image/10/2",
+							"raw": "{{baseUrl}}/image/1/100",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"image",
-								"10",
-								"2"
+								"1",
+								"100"
 							]
 						}
 					},
@@ -476,14 +303,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/image/combination/2",
+							"raw": "{{baseUrl}}/image/combination/3",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"image",
 								"combination",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -518,6 +345,319 @@
 			]
 		},
 		{
+			"name": "deployment",
+			"item": [
+				{
+					"name": "statistics",
+					"item": [
+						{
+							"name": "avgPerUser",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/deployment/statistics/avgPerUser",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"deployment",
+										"statistics",
+										"avgPerUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "avgPerImage",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/deployment/statistics/avgPerImage",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"deployment",
+										"statistics",
+										"avgPerImage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "totalDeployments",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/deployment/statistics/totalDeployments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"deployment",
+										"statistics",
+										"totalDeployments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "totalDeploymentsPerImage",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/deployment/statistics/totalDeploymentsPerImage",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"deployment",
+										"statistics",
+										"totalDeploymentsPerImage"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Or Update Deployment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"imageId\":\"604c805e0521f5ad4ebdb071\",\n    \"userId\":\"604c7eb64092d0acca391a0e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deployment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deployment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById [Deployment]",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deployment/6049e208c6929a699824b0f4",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deployment",
+								"6049e208c6929a699824b0f4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindAll [Deployment]",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deployment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deployment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Deployments with pagination",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/deployment/4/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deployment",
+								"4",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAll [Deployment]",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deployment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deployment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "admin",
 			"item": [
 				{
@@ -538,7 +678,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userName\": \"aaa@gmail.com\",\n    \"password\": \"123123\"\n}",
+							"raw": "{\n    \"userName\": \"admin@admin.com\",\n    \"password\": \"Ben0fmobbish\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -553,58 +693,6 @@
 							"path": [
 								"admin",
 								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "withAuth",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"aaa@gmail.com\",\n    \"password\": \"123123\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/withAuth",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"withAuth"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "withoutAuth",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"aaa@gmail.com\",\n    \"password\": \"123123\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/withoutAuth",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"withoutAuth"
 							]
 						}
 					},

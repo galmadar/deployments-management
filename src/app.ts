@@ -19,7 +19,7 @@ import "./middlewares/passport/passport"
 const app = express();
 
 // Connect to MongoDB
-const mongoUrl = "mongodb://localhost:27017/enso";
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/enso";
 let mongoConnector = new MongoConnector();
 mongoConnector.connect(mongoUrl)
     .then((res) => {
