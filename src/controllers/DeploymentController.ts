@@ -16,12 +16,8 @@ class DeploymentController extends BaseCrudController {
     }
 
     createDeployment = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            let createdDeployment = await this.service.create(req.body);
-            res.json(createdDeployment)
-        } catch (err) {
-            res.status(500)
-        }
+        let createdDeployment = await this.service.create(req.body);
+        res.json(createdDeployment)
     }
 
     private initStatisticsRoutes() {

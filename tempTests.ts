@@ -23,3 +23,17 @@
 //
 // const results = findCombinations(arr, 0, r)
 // console.log(results)
+
+// function countAvg(arr: { count: number }[]) {
+//     const sum = arr.reduce(((acc, curr) => {
+//         return acc + curr.count
+//     }), 0);
+//
+//     const count = arr.length;
+//     const avg = sum / count;
+//     return {count, sum, avg};
+// }
+//
+// const res = countAvg([{count: 1}, {count: 12}, {count: 4}])
+// console.log({res})
+//

@@ -40,11 +40,31 @@ class DeploymentService extends BaseCrudService {
     }
 
     async avgPerUser() {
-
+        const deploymentsPerUser = await this.model.aggregate([
+            {$group: {_id: "$userId", count: {$sum: 1}}}
+        ]);
+        return this.countAvg(deploymentsPerUser, {sumKey: "deployments", countKey: "users"})
     }
 
     async avgPerImage() {
+        const deploymentsPerUser = await this.model.aggregate([
+            {$group: {_id: "$imageId", count: {$sum: 1}}}
+        ]);
+        return this.countAvg(deploymentsPerUser, {sumKey: "deployments", countKey: "images"})
+    }
 
+    countAvg = (arr: { count: number }[], options?: { sumKey?: string, countKey?: string, avgKey?: string }) => {
+        const sum = arr.reduce(((acc, curr) => {
+            return acc + curr.count
+        }), 0);
+        const count = arr.length;
+        const average = sum / count;
+
+        return {
+            [options?.sumKey || "sum"]: sum,
+            [options?.countKey || "count"]: count,
+            [options?.avgKey || "average"]: average
+        };
     }
 
     async totalDeployments() {
@@ -54,13 +74,19 @@ class DeploymentService extends BaseCrudService {
     }
 
     async totalDeploymentsPerImage() {
-        let totalDeploymentsPerImage = await this.model
+        return this.model
             .aggregate([
                 {$group: {_id: "$imageId", count: {$sum: 1}}},
-                {$sort: {count: -1}},
-                {$limit: 2}
+                {
+                    $lookup: {
+                        from: "images",
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "image"
+                    }
+                },
+                // {$project: {count: 1}}
             ]);
-        return totalDeploymentsPerImage;
     }
 }
 
