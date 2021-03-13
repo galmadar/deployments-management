@@ -1,16 +1,16 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as passport from "passport";
+import * as listEndpoints from "express-list-endpoints";
+import * as morgan from "morgan";
 import MongoConnector from "./db/MongoConnector";
 import logger from "./utils/Logger";
 import userRouter from "./controllers/UserController";
 import imageRouter from "./controllers/ImageController";
-import * as morgan from "morgan";
 import deploymentRouter from "./controllers/DeploymentController";
 import adminRouter from "./controllers/AdminController";
 import {errorHandlerMiddleware} from "./middlewares/errors/errorHandlerMiddleware";
-import {AdminModel} from "./db/models/Admin";
-import {initAdminProps} from "./config/adminConfig";
+import {initAdmin} from "./db/initDB";
 
 /* Import passport in order to "init" the strategies */
 import "./middlewares/passport/passport"
@@ -19,7 +19,7 @@ import "./middlewares/passport/passport"
 const app = express();
 
 // Connect to MongoDB
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/enso";
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017/deployments";
 let mongoConnector = new MongoConnector();
 mongoConnector.connect(mongoUrl)
     .then((res) => {
@@ -47,27 +47,12 @@ app.use("/admin", adminRouter);
 /* Setup error handling middleware */
 app.use(errorHandlerMiddleware)
 
+/* List all endpoints (for debug purposes) */
 if (process.env.NODE_ENV !== "production") {
-    // console.log(listEndpoints(app))
+    console.log(listEndpoints(app))
 }
 
-const initAdmin = async () => {
-    const {userName, password} = initAdminProps;
-    let initializedAdmin = await AdminModel.findOne({userName, password});
-    if (!initializedAdmin) {
-        initializedAdmin = await AdminModel.create({userName, password});
-    }
-
-    return initializedAdmin
-}
-
+/* Script for creating the first Admin user */
 initAdmin()
-    .then(admin => {
-        logger.debug("Created admin:")
-        logger.debug(admin)
-    })
-    .catch(err => {
-        logger.error("Error on creating first admin", err)
-    })
 
 export default app;

@@ -9,5 +9,4 @@ export default class MongoConnector {
         (mongoose as Mongoose).Promise = bluebird;
         return mongoose.connect(mongoUrl, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true})
     }
-
 }
