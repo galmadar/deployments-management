@@ -23,11 +23,9 @@ class UserController extends BaseCrudController {
             createdOrUpdatedModel = await this.service.create(req.body);
         }
 
-        res.json(createdOrUpdatedModel)
+        res.json(createdOrUpdatedModel);
     };
-
 }
 
 let userRouter = new UserController().router;
 export default userRouter;
-

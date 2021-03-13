@@ -5,10 +5,10 @@ import BaseModel from "./BaseModel";
 
 export class Deployment extends BaseModel {
     @prop({ref: () => Image})
-    imageId?: Ref<Image>
+    imageId?: Ref<Image>;
 
     @prop({ref: () => User})
-    userId?: Ref<User>
+    userId?: Ref<User>;
 }
 
 const DeploymentModel = getModelForClass(Deployment);

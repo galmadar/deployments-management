@@ -17,16 +17,16 @@ class AdminController extends BaseController {
     }
 
     adminLogin(req: Request, res: Response, next: NextFunction) {
-        passport.authenticate('local', {session: false}, (err, user, info) => {
+        passport.authenticate("local", {session: false}, (err, user, info) => {
             if (err || !user) {
-                return next(unauthorized("username or password are wrong"))
+                return next(unauthorized("username or password are wrong"));
             }
             req.login(user, {session: false}, (err) => {
                 if (err) {
                     res.send(err);
                 }
                 // generate a signed son web token with the contents of user object and return it in the response
-                const {_id, userName, password} = user as Admin
+                const {_id, userName, password} = user as Admin;
                 const token = jwt.sign({id: _id, userName, password}, JwtTokenSecret);
                 return res.json({user, token});
             });
@@ -38,9 +38,7 @@ class AdminController extends BaseController {
         const createdAdmin = await this.service.create({userName, password});
         res.json(createdAdmin);
     }
-
 }
 
 let adminRouter = new AdminController().router;
 export default adminRouter;
-

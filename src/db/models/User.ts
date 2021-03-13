@@ -5,7 +5,7 @@ export class User extends BaseModel {
     @prop()
     name?: string;
 
-    @prop()
+    @prop({unique: true})
     email?: string;
 
     @prop()

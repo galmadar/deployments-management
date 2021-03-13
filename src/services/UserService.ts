@@ -7,4 +7,4 @@ class UserService extends BaseCrudService {
     }
 }
 
-export default new UserService()
+export default new UserService();

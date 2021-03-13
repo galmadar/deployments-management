@@ -7,4 +7,4 @@ class AdminService extends BaseCrudService {
     }
 }
 
-export default new AdminService()
+export default new AdminService();

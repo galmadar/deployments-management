@@ -8,10 +8,8 @@ class BaseController {
 
     constructor(service: BaseCrudService) {
         this.service = service;
-        this.router = express.Router()
+        this.router = express.Router();
     }
-
 }
-
 
 export default BaseController;

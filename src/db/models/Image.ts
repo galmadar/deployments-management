@@ -3,7 +3,6 @@ import BaseModel from "./BaseModel";
 
 @index({name: 1})
 export class Image extends BaseModel {
-
     @prop()
     name?: string;
 
@@ -14,5 +13,5 @@ export class Image extends BaseModel {
     version?: string;
 }
 
-const ImageModel = getModelForClass(Image)
-export {ImageModel}
+const ImageModel = getModelForClass(Image);
+export {ImageModel};

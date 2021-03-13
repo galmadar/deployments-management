@@ -20,12 +20,9 @@ export default class BaseCrudService {
     }
 
     getAllWithPagination = async (rowsInPage: number, pageNumber: number) => {
-        const startIndex = (pageNumber - 1) * rowsInPage
-        return this.findAll()
-            .sort({createdAt: 1})
-            .skip(startIndex)
-            .limit(rowsInPage);
-    }
+        const startIndex = (pageNumber - 1) * rowsInPage;
+        return this.findAll().sort({createdAt: 1}).skip(startIndex).limit(rowsInPage);
+    };
 
     updateById(id: string, model: any) {
         delete model._id;
@@ -36,5 +33,4 @@ export default class BaseCrudService {
     deleteAll() {
         return this.model.deleteMany({});
     }
-
 }

@@ -7,11 +7,11 @@ export const validationResultMiddleware = (req: Request, res: Response, next: Ne
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
-    next()
+    next();
 };
 
 export const validationPaginationMiddleware = [
-    param('pageNumber').isNumeric({no_symbols: true}),
-    param('rowsInPage').isNumeric({no_symbols: true}),
-    validationResultMiddleware
-]
+    param("pageNumber").isNumeric({no_symbols: true}),
+    param("rowsInPage").isNumeric({no_symbols: true}),
+    validationResultMiddleware,
+];

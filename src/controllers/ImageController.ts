@@ -8,37 +8,36 @@ class ImageController extends BaseCrudController {
     constructor() {
         super(ImageService);
 
-        this.router.get("/secondMostCommon", asyncMiddleware(this.getSecondCommonImage))
-        this.router.get("/combination/:length", combinationValidator, asyncMiddleware(this.getCombinationByLength))
+        this.router.get("/secondMostCommon", asyncMiddleware(this.getSecondCommonImage));
+        this.router.get("/combination/:length", combinationValidator, asyncMiddleware(this.getCombinationByLength));
         this.initDefaults({withPagination: {}, withFindById: true});
-        this.router.post("/", createImageValidator, asyncMiddleware(this.createImage))
-        this.router.put("/:id", this.updateImage)
+        this.router.post("/", createImageValidator, asyncMiddleware(this.createImage));
+        this.router.put("/:id", this.updateImage);
     }
 
     getSecondCommonImage = async (req: Request, res: Response, next: NextFunction) => {
         let imageService = this.service as typeof ImageService;
         let secondCommonImage = await imageService.getSecondCommonImage();
-        res.json(secondCommonImage)
-    }
+        res.json(secondCommonImage);
+    };
 
     getCombinationByLength = async (req: Request, res: Response, next: NextFunction) => {
         const {length} = req.params;
         let imageService = this.service as typeof ImageService;
         let combinations = await imageService.getCombinationByLength(Number.parseInt(length));
-        res.json(combinations)
-    }
+        res.json(combinations);
+    };
 
     createImage = async (req: Request, res: Response, next: NextFunction) => {
         let createdImage = await this.service.create(req.body);
-        res.json(createdImage)
-    }
+        res.json(createdImage);
+    };
 
     updateImage = async (req: Request, res: Response, next: NextFunction) => {
         const {id} = req.params;
-        let updatedImage = await this.service.updateById(id, req.body)
-        res.json(updatedImage)
-    }
-
+        let updatedImage = await this.service.updateById(id, req.body);
+        res.json(updatedImage);
+    };
 }
 
 let imageRouter = new ImageController().router;

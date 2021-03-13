@@ -11,14 +11,16 @@ class DeploymentController extends BaseCrudController {
         super(DeploymentService);
 
         this.initStatisticsRoutes();
-        this.initDefaults({withPagination: {handlers: [jwtAuthenticationMiddleware]}});
-        this.router.post("/", createDeploymentValidatorHandler, asyncMiddleware(this.createDeployment))
+        this.initDefaults({
+            withPagination: {handlers: [jwtAuthenticationMiddleware]},
+        });
+        this.router.post("/", createDeploymentValidatorHandler, asyncMiddleware(this.createDeployment));
     }
 
     createDeployment = async (req: Request, res: Response, next: NextFunction) => {
         let createdDeployment = await this.service.create(req.body);
-        res.json(createdDeployment)
-    }
+        res.json(createdDeployment);
+    };
 
     private initStatisticsRoutes() {
         const statisticsRouter = express.Router();
@@ -30,30 +32,29 @@ class DeploymentController extends BaseCrudController {
     }
 
     private avgPerUser = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = (this.service as typeof DeploymentService);
+        const deploymentService = this.service as typeof DeploymentService;
         const result = await deploymentService.avgPerUser();
-        res.json(result)
-    }
+        res.json(result);
+    };
 
     private avgPerImage = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = (this.service as typeof DeploymentService);
+        const deploymentService = this.service as typeof DeploymentService;
         const result = await deploymentService.avgPerImage();
-        res.json(result)
-    }
+        res.json(result);
+    };
 
     private totalDeployments = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = (this.service as typeof DeploymentService);
+        const deploymentService = this.service as typeof DeploymentService;
         const result = await deploymentService.totalDeployments();
-        res.json(result)
-    }
+        res.json(result);
+    };
 
     private totalDeploymentsPerImage = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = (this.service as typeof DeploymentService);
+        const deploymentService = this.service as typeof DeploymentService;
         const result = await deploymentService.totalDeploymentsPerImage();
-        res.json(result)
-    }
+        res.json(result);
+    };
 }
 
 let deploymentRouter = new DeploymentController().router;
 export default deploymentRouter;
-
