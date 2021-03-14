@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"gal3\",\n    \"email\":\"gma33@ail.co\"\n}",
+							"raw": "{\n    \"name\":\"user1\",\n    \"email\":\"user@email.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -303,14 +303,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/image/combination/3",
+							"raw": "{{baseUrl}}/image/combination/2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"image",
 								"combination",
-								"3"
+								"2"
 							]
 						}
 					},
