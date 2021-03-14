@@ -15,36 +15,36 @@ import {initDB} from "./app/db/initDB";
 import "./app/middlewares/passport/passport";
 
 class App {
-    public app: Express;
+    public express: Express;
 
     constructor() {
-        this.app = express();
+        this.express = express();
     }
 
     listen(port: number): Promise<void> {
         return new Promise((res, rej) => {
-            this.app.listen(port, res);
+            this.express.listen(port, res);
         });
     }
 
     async config(mongoURL: string) {
         // Express configuration
-        this.app.use(bodyParser.json());
+        this.express.use(bodyParser.json());
 
         /* Setup passport for [Admin] Authentication */
-        this.app.use(passport.initialize());
+        this.express.use(passport.initialize());
 
         /* Setup request logger */
-        this.app.use(morgan("tiny"));
+        this.express.use(morgan("tiny"));
 
         /* Setup routes */
-        this.app.use("/user", new UserController().router);
-        this.app.use("/image", new ImageController().router);
-        this.app.use("/deployment", new DeploymentController().router);
-        this.app.use("/admin", new AdminController().router);
+        this.express.use("/user", new UserController().router);
+        this.express.use("/image", new ImageController().router);
+        this.express.use("/deployment", new DeploymentController().router);
+        this.express.use("/admin", new AdminController().router);
 
         /* Setup error handling middleware */
-        this.app.use(errorHandlerMiddleware);
+        this.express.use(errorHandlerMiddleware);
 
         /* Connect to DB */
         await this.connectToDB(mongoURL);

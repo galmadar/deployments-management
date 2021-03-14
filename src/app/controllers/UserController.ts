@@ -2,7 +2,7 @@ import UserService from "../services/UserService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import {createUserValidatorHandler} from "../middlewares/requestValidatiors/userValidators";
-import asyncErrorWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
+import asyncErrorWrapper from "../middlewares/errors/asyncErrorWrapper";
 
 export default class UserController extends BaseCrudController {
     constructor() {

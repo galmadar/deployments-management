@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import BaseCrudService from "../services/BaseCrudService";
 import {validationPaginationMiddleware} from "../middlewares/requestValidatiors/baseValidators";
-import errorWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
+import asyncErrorWrapper from "../middlewares/errors/asyncErrorWrapper";
 import BaseController from "./BaseController";
 
 export default class BaseCrudController extends BaseController {
@@ -15,15 +15,15 @@ export default class BaseCrudController extends BaseController {
                 "/:pageNumber/:rowsInPage",
                 validationPaginationMiddleware,
                 ...(options.pagination.handlers || []),
-                errorWrapper(this.getAllWithPagination)
+                asyncErrorWrapper(this.getAllWithPagination)
             );
         }
         if (options?.withFindById) {
-            this.router.get("/:id", errorWrapper(this.findById));
+            this.router.get("/:id", asyncErrorWrapper(this.findById));
         }
         if (process.env.NODE_ENV !== "production") {
-            this.router.get("/", errorWrapper(this.findAll));
-            this.router.delete("/", errorWrapper(this.deleteAll));
+            this.router.get("/", asyncErrorWrapper(this.findAll));
+            this.router.delete("/", asyncErrorWrapper(this.deleteAll));
         }
     }
 

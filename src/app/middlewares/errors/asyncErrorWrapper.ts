@@ -14,11 +14,9 @@ const validateMongoError = (req: Request, res: Response, next: NextFunction, err
     return false;
 };
 
-const errorOnMiddlewareWrapper = (
-    expressMiddleware: (req: Request, res: Response, next: NextFunction) => Promise<any>
-) => {
+const asyncErrorWrapper = (middleware: (req: Request, res: Response, next: NextFunction) => Promise<any>) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        expressMiddleware(req, res, next).catch((err) => {
+        middleware(req, res, next).catch((err) => {
             if (validateMongoError(req, res, next, err)) {
                 return;
             } else if (!err.isBoom) {
@@ -30,4 +28,4 @@ const errorOnMiddlewareWrapper = (
     };
 };
 
-export default errorOnMiddlewareWrapper;
+export default asyncErrorWrapper;

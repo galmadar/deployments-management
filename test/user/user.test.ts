@@ -1,5 +1,6 @@
-import  chai from "chai";
-import  chaiHttp from "chai-http";
+import {Express} from "express";
+import chai from "chai";
+import chaiHttp from "chai-http";
 import {User, UserModel} from "../../src/app/db/models/User";
 import {controllerUser, testUser1} from "./data";
 import App from "../../src/app";
@@ -11,6 +12,21 @@ const should = chai.should();
 const expect = chai.expect;
 
 describe("User", () => {
+    describe("UserController", () => {
+        let express: Express;
+
+        before(async () => {
+            const app = new App();
+            await app.config(testMongoUrl);
+            express = app.express;
+        });
+
+        it("should create user", async function () {
+            const response = await chai.request(express).post("/user").send(controllerUser);
+            expect(response).to.have.status(200);
+        });
+    });
+
     describe("UserService", () => {
         let createdUserId: string;
 
@@ -40,18 +56,6 @@ describe("User", () => {
             const createdUser = await UserModel.findById(createdUserId);
             expect(createdUser).to.not.be.null;
             expect(createdUser).to.be.an("object", "User not created");
-        });
-    });
-
-    describe("UserController", () => {
-        let app: App;
-        before(async () => {
-            app = new App();
-            await app.config(testMongoUrl);
-        });
-        it("should create user", async function () {
-            const response = await chai.request(app).post("/user").send(controllerUser);
-            expect(response).to.have.status(200);
         });
     });
 });

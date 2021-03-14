@@ -2,7 +2,7 @@ import BaseCrudController from "./BaseCrudController";
 import express, {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
 import {createDeploymentValidatorHandler} from "../middlewares/requestValidatiors/deploymentValidator";
-import errorOnMiddlewareWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
+import asyncErrorWrapper from "../middlewares/errors/asyncErrorWrapper";
 import {jwtAuthenticationMiddleware} from "../middlewares/passport/authenticationMiddlewares";
 
 export default class DeploymentController extends BaseCrudController {
@@ -11,7 +11,7 @@ export default class DeploymentController extends BaseCrudController {
 
         this.initStatisticsRoutes();
         this.initDefaults({pagination: {handlers: [jwtAuthenticationMiddleware]}});
-        this.router.post("/", createDeploymentValidatorHandler, errorOnMiddlewareWrapper(this.createDeployment));
+        this.router.post("/", createDeploymentValidatorHandler, asyncErrorWrapper(this.createDeployment));
     }
 
     createDeployment = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,10 +21,10 @@ export default class DeploymentController extends BaseCrudController {
 
     private initStatisticsRoutes() {
         const statisticsRouter = express.Router();
-        statisticsRouter.get("/avgPerUser", errorOnMiddlewareWrapper(this.avgPerUser));
-        statisticsRouter.get("/avgPerImage", errorOnMiddlewareWrapper(this.avgPerImage));
-        statisticsRouter.get("/totalDeployments", errorOnMiddlewareWrapper(this.totalDeployments));
-        statisticsRouter.get("/totalDeploymentsPerImage", errorOnMiddlewareWrapper(this.totalDeploymentsPerImage));
+        statisticsRouter.get("/avgPerUser", asyncErrorWrapper(this.avgPerUser));
+        statisticsRouter.get("/avgPerImage", asyncErrorWrapper(this.avgPerImage));
+        statisticsRouter.get("/totalDeployments", asyncErrorWrapper(this.totalDeployments));
+        statisticsRouter.get("/totalDeploymentsPerImage", asyncErrorWrapper(this.totalDeploymentsPerImage));
         this.router.use("/statistics", jwtAuthenticationMiddleware, statisticsRouter);
     }
 
