@@ -1,7 +1,7 @@
 import BaseCrudService from "./BaseCrudService";
 import {DeploymentModel} from "../db/models/Deployment";
-import logger from "../utils/Logger";
-import FileUtils from "../utils/FileUtils";
+import logger from "../../utils/Logger";
+import FileUtils from "../../utils/FileUtils";
 import {isNullOrUndefined} from "@typegoose/typegoose/lib/internal/utils";
 
 class DeploymentService extends BaseCrudService {
@@ -32,9 +32,8 @@ class DeploymentService extends BaseCrudService {
 
     async create(model: any) {
         let createdDeployment = await super.create(model);
-        this.updateCounterTxt().then((counter) => {
-            logger.info(`counter updated to ${counter}`);
-        });
+        const counter = await this.updateCounterTxt();
+        logger.info(`counter updated to ${counter}`);
         return createdDeployment;
     }
 

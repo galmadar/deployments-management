@@ -1,29 +1,29 @@
 import {NextFunction, Request, Response} from "express";
 import BaseCrudService from "../services/BaseCrudService";
 import {validationPaginationMiddleware} from "../middlewares/requestValidatiors/baseValidators";
-import asyncMiddleware from "../middlewares/async/async.middleware";
+import errorWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
 import BaseController from "./BaseController";
 
-class BaseCrudController extends BaseController {
+export default class BaseCrudController extends BaseController {
     constructor(service: BaseCrudService) {
         super(service);
     }
 
-    protected initDefaults(options?: {withPagination?: {handlers?: any[]}; withFindById?: boolean}) {
-        if (options?.withPagination) {
+    protected initDefaults(options?: {pagination?: {handlers?: any[]}; withFindById?: boolean}) {
+        if (options?.pagination) {
             this.router.get(
                 "/:pageNumber/:rowsInPage",
                 validationPaginationMiddleware,
-                ...(options.withPagination.handlers || []),
-                asyncMiddleware(this.getAllWithPagination)
+                ...(options.pagination.handlers || []),
+                errorWrapper(this.getAllWithPagination)
             );
         }
         if (options?.withFindById) {
-            this.router.get("/:id", asyncMiddleware(this.findById));
+            this.router.get("/:id", errorWrapper(this.findById));
         }
         if (process.env.NODE_ENV !== "production") {
-            this.router.get("/", asyncMiddleware(this.findAll));
-            this.router.delete("/", asyncMiddleware(this.deleteAll));
+            this.router.get("/", errorWrapper(this.findAll));
+            this.router.delete("/", errorWrapper(this.deleteAll));
         }
     }
 
@@ -51,5 +51,3 @@ class BaseCrudController extends BaseController {
         res.json(pagination);
     };
 }
-
-export default BaseCrudController;

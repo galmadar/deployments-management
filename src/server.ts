@@ -1,13 +1,13 @@
-import app from "./app";
+import App from "./app";
+import config from "./config/config";
 
-const port = process.env.PORT || 3000;
+const port = config.port;
+const app = new App();
 
-/**
- * Start Express server.
- */
-const server = app.listen(port, () => {
-    console.log("App is running at http://localhost:%d in %s mode", port, app.get("env"));
-    console.log("Press CTRL-C to stop");
-});
-
-export default server;
+app.config(config.mongoUrl)
+    .then(() => {
+        return app.listen(port);
+    })
+    .then(() => {
+        console.log("App is running on port %d", port);
+    });

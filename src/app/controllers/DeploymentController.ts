@@ -1,20 +1,17 @@
 import BaseCrudController from "./BaseCrudController";
-import express from "express";
-import {NextFunction, Request, Response} from "express";
+import express, {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
 import {createDeploymentValidatorHandler} from "../middlewares/requestValidatiors/deploymentValidator";
-import asyncMiddleware from "../middlewares/async/async.middleware";
+import errorOnMiddlewareWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
 import {jwtAuthenticationMiddleware} from "../middlewares/passport/authenticationMiddlewares";
 
-class DeploymentController extends BaseCrudController {
+export default class DeploymentController extends BaseCrudController {
     constructor() {
         super(DeploymentService);
 
         this.initStatisticsRoutes();
-        this.initDefaults({
-            withPagination: {handlers: [jwtAuthenticationMiddleware]},
-        });
-        this.router.post("/", createDeploymentValidatorHandler, asyncMiddleware(this.createDeployment));
+        this.initDefaults({pagination: {handlers: [jwtAuthenticationMiddleware]}});
+        this.router.post("/", createDeploymentValidatorHandler, errorOnMiddlewareWrapper(this.createDeployment));
     }
 
     createDeployment = async (req: Request, res: Response, next: NextFunction) => {
@@ -24,10 +21,10 @@ class DeploymentController extends BaseCrudController {
 
     private initStatisticsRoutes() {
         const statisticsRouter = express.Router();
-        statisticsRouter.get("/avgPerUser", asyncMiddleware(this.avgPerUser));
-        statisticsRouter.get("/avgPerImage", asyncMiddleware(this.avgPerImage));
-        statisticsRouter.get("/totalDeployments", asyncMiddleware(this.totalDeployments));
-        statisticsRouter.get("/totalDeploymentsPerImage", asyncMiddleware(this.totalDeploymentsPerImage));
+        statisticsRouter.get("/avgPerUser", errorOnMiddlewareWrapper(this.avgPerUser));
+        statisticsRouter.get("/avgPerImage", errorOnMiddlewareWrapper(this.avgPerImage));
+        statisticsRouter.get("/totalDeployments", errorOnMiddlewareWrapper(this.totalDeployments));
+        statisticsRouter.get("/totalDeploymentsPerImage", errorOnMiddlewareWrapper(this.totalDeploymentsPerImage));
         this.router.use("/statistics", jwtAuthenticationMiddleware, statisticsRouter);
     }
 
@@ -55,6 +52,3 @@ class DeploymentController extends BaseCrudController {
         res.json(result);
     };
 }
-
-let deploymentRouter = new DeploymentController().router;
-export default deploymentRouter;

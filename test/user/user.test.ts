@@ -1,8 +1,9 @@
-import chai from "chai";
-import chaiHttp from "chai-http";
-import {User, UserModel} from "../../src/db/models/User";
+import  chai from "chai";
+import  chaiHttp from "chai-http";
+import {User, UserModel} from "../../src/app/db/models/User";
 import {controllerUser, testUser1} from "./data";
-import app from "../../src/app";
+import App from "../../src/app";
+import {testMongoUrl} from "../config/config";
 
 chai.use(chaiHttp);
 
@@ -43,6 +44,11 @@ describe("User", () => {
     });
 
     describe("UserController", () => {
+        let app: App;
+        before(async () => {
+            app = new App();
+            await app.config(testMongoUrl);
+        });
         it("should create user", async function () {
             const response = await chai.request(app).post("/user").send(controllerUser);
             expect(response).to.have.status(200);

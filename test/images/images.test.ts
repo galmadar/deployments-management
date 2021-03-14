@@ -2,7 +2,7 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import {testImage1, testImage2, testImage3} from "./data";
 import app from "../../src/app";
-import {ImageModel} from "../../src/db/models/Image";
+import {ImageModel} from "../../src/app/db/models/Image";
 
 chai.use(chaiHttp);
 

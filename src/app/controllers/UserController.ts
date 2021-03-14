@@ -2,14 +2,14 @@ import UserService from "../services/UserService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import {createUserValidatorHandler} from "../middlewares/requestValidatiors/userValidators";
-import asyncMiddleware from "../middlewares/async/async.middleware";
+import asyncErrorWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
 
-class UserController extends BaseCrudController {
+export default class UserController extends BaseCrudController {
     constructor() {
         super(UserService);
 
         this.initDefaults({withFindById: true});
-        this.router.post("/", createUserValidatorHandler, asyncMiddleware(this.createOrUpdate));
+        this.router.post("/", createUserValidatorHandler, asyncErrorWrapper(this.createOrUpdate));
     }
 
     createOrUpdate = async (req: Request, res: Response, next: NextFunction) => {
@@ -26,6 +26,3 @@ class UserController extends BaseCrudController {
         res.json(createdOrUpdatedModel);
     };
 }
-
-let userRouter = new UserController().router;
-export default userRouter;

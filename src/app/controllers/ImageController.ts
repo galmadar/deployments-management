@@ -2,16 +2,20 @@ import ImageService from "../services/ImageService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
 import {combinationValidator, createImageValidator} from "../middlewares/requestValidatiors/imageValidators";
-import asyncMiddleware from "../middlewares/async/async.middleware";
+import errorOnMiddlewareWrapper from "../middlewares/errors/errorOnMiddlewareWrapper";
 
-class ImageController extends BaseCrudController {
+export default class ImageController extends BaseCrudController {
     constructor() {
         super(ImageService);
 
-        this.router.get("/secondMostCommon", asyncMiddleware(this.getSecondCommonImage));
-        this.router.get("/combination/:length", combinationValidator, asyncMiddleware(this.getCombinationByLength));
-        this.initDefaults({withPagination: {}, withFindById: true});
-        this.router.post("/", createImageValidator, asyncMiddleware(this.createImage));
+        this.router.get("/secondMostCommon", errorOnMiddlewareWrapper(this.getSecondCommonImage));
+        this.router.get(
+            "/combination/:length",
+            combinationValidator,
+            errorOnMiddlewareWrapper(this.getCombinationByLength)
+        );
+        this.initDefaults({pagination: {}, withFindById: true});
+        this.router.post("/", createImageValidator, errorOnMiddlewareWrapper(this.createImage));
         this.router.put("/:id", this.updateImage);
     }
 
@@ -39,6 +43,3 @@ class ImageController extends BaseCrudController {
         res.json(updatedImage);
     };
 }
-
-let imageRouter = new ImageController().router;
-export default imageRouter;
