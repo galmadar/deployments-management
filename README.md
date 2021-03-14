@@ -11,6 +11,5 @@ The project is built with `yarn` as package-manager.
 Run the command `docker-compose up -d` in the root directory.<br>
 Docker will create 2 containers for you: `node` and `mongo`
 
----
-
+#### Tests
 in order to run the tests, just run `yarn test`
