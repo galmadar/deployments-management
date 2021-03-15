@@ -89,6 +89,7 @@ class DeploymentService extends BaseCrudService {
                     as: "image",
                 },
             },
+            {$project: {_id: 0, count: 1, image: {name: 1, repository: 1, version: 1}}},
         ]);
     }
 }
