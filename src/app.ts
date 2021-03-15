@@ -10,9 +10,7 @@ import DeploymentController from "./app/controllers/DeploymentController";
 import AdminController from "./app/controllers/AdminController";
 import {errorHandlerMiddleware} from "./app/middlewares/errors/errorHandlerMiddleware";
 import {initDB} from "./app/db/initDB";
-
-/* Import passport in order to "init" the strategies */
-import "./app/middlewares/passport/passport";
+import "./app/middlewares/passport/passport"; /* Import this in order to "init" passport's strategies */
 
 class App {
     public express: Express;
@@ -27,7 +25,7 @@ class App {
         });
     }
 
-    async config(mongoURL: string) {
+    async init(options: {mongoURL: string}) {
         // Express configuration
         this.express.use(bodyParser.json());
 
@@ -47,7 +45,7 @@ class App {
         this.express.use(errorHandlerMiddleware);
 
         /* Connect to DB */
-        await this.connectToDB(mongoURL);
+        await this.connectToDB(options.mongoURL);
     }
 
     async connectToDB(mongoURL: string) {

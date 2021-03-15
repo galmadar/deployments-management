@@ -3,10 +3,9 @@ import {DeploymentModel} from "../db/models/Deployment";
 import logger from "../../utils/Logger";
 import FileUtils from "../../utils/FileUtils";
 import {isNullOrUndefined} from "@typegoose/typegoose/lib/internal/utils";
+import config from "../../config/config";
 
 class DeploymentService extends BaseCrudService {
-    countTxtPath = "count.txt";
-
     constructor() {
         super(DeploymentModel);
     }
@@ -17,13 +16,13 @@ class DeploymentService extends BaseCrudService {
 
     async updateCounterTxt() {
         try {
-            let counter: string | number | null = await FileUtils.readFile(this.countTxtPath);
+            let counter: string | number | null = await FileUtils.readFile(config.deploymentCountFilePath);
             if (isNullOrUndefined(counter)) {
                 counter = 0;
             }
             counter = Number.parseInt(counter as string);
             (counter as number)++;
-            await FileUtils.writeFile(this.countTxtPath, counter.toString());
+            await FileUtils.writeFile(config.deploymentCountFilePath, counter.toString());
             return counter;
         } catch (err) {
             logger.error("Error in ", err);
@@ -75,7 +74,7 @@ class DeploymentService extends BaseCrudService {
 
     async totalDeployments() {
         let deploymentCount = await (this.model as typeof DeploymentModel).count();
-        let counterTxt = await FileUtils.readFile(this.countTxtPath);
+        let counterTxt = await FileUtils.readFile(config.deploymentCountFilePath);
         return {deploymentCount, counterTxt};
     }
 

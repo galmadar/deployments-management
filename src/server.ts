@@ -1,10 +1,10 @@
 import App from "./app";
 import config from "./config/config";
 
-const {port, mongoUrl} = config;
+const {port, mongoURL} = config;
 const app = new App();
 
-app.config(mongoUrl)
+app.init({mongoURL})
     .then(() => {
         return app.listen(port);
     })

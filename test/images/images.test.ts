@@ -17,7 +17,7 @@ describe("Image", () => {
 
         before(async () => {
             const app = new App();
-            await app.config(testMongoUrl);
+            await app.init({mongoURL: testMongoUrl});
             express = app.express;
             await ImageModel.deleteMany();
         });

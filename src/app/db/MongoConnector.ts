@@ -4,7 +4,7 @@ import logger from "../../utils/Logger";
 import config from "../../config/config";
 
 class MongoConnector {
-    async connect(connectionString: string = config.mongoUrl) {
+    async connect(connectionString: string) {
         logger.info(`connecting to mongo with URL: ${connectionString}.....`);
         (mongoose as Mongoose).Promise = bluebird;
         await mongoose.connect(connectionString, {
