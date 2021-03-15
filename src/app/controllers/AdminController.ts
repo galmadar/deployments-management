@@ -2,7 +2,10 @@ import BaseController from "./BaseController";
 import passport from "passport";
 import {Admin} from "../db/models/Admin";
 import jwt from "jsonwebtoken";
-import {adminLoginValidator, createAdminValidator} from "../middlewares/requestValidatiors/adminValidators";
+import {
+    adminLoginRequestValidator,
+    createAdminRequestValidator,
+} from "../middlewares/requestValidatiors/adminValidators";
 import {NextFunction, Request, Response} from "express";
 import {unauthorized} from "@hapi/boom";
 import {jwtAuthenticationMiddleware} from "../middlewares/passport/authenticationMiddlewares";
@@ -12,8 +15,8 @@ import config from "../../config/config";
 export default class AdminController extends BaseController {
     constructor() {
         super(AdminService);
-        this.router.post("/login", adminLoginValidator, this.adminLogin);
-        this.router.post("/createAdmin", createAdminValidator, jwtAuthenticationMiddleware, this.createAdmin);
+        this.router.post("/login", adminLoginRequestValidator, this.adminLogin);
+        this.router.post("/createAdmin", createAdminRequestValidator, jwtAuthenticationMiddleware, this.createAdmin);
     }
 
     adminLogin(req: Request, res: Response, next: NextFunction) {

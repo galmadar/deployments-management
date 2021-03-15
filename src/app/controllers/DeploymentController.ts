@@ -1,7 +1,10 @@
 import BaseCrudController from "./BaseCrudController";
-import express, {NextFunction, Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import DeploymentService from "../services/DeploymentService";
-import {createDeploymentValidatorHandler} from "../middlewares/requestValidatiors/deploymentValidator";
+import {
+    createDeploymentRequestValidator,
+    getStatisticsRequestValidator,
+} from "../middlewares/requestValidatiors/deploymentValidator";
 import asyncErrorWrapper from "../middlewares/errors/asyncErrorWrapper";
 import {jwtAuthenticationMiddleware} from "../middlewares/passport/authenticationMiddlewares";
 
@@ -9,9 +12,14 @@ export default class DeploymentController extends BaseCrudController {
     constructor() {
         super(DeploymentService);
 
-        this.initStatisticsRoutes();
+        this.router.use(
+            "/statistics",
+            getStatisticsRequestValidator("avgPerUser", "avgPerImage", "totalDeployments", "totalDeploymentsPerImage"),
+            jwtAuthenticationMiddleware,
+            asyncErrorWrapper(this.getStatistics)
+        );
         this.initDefaults({pagination: {handlers: [jwtAuthenticationMiddleware]}});
-        this.router.post("/", createDeploymentValidatorHandler, asyncErrorWrapper(this.createDeployment));
+        this.router.post("/", createDeploymentRequestValidator, asyncErrorWrapper(this.createDeployment));
     }
 
     createDeployment = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,36 +27,25 @@ export default class DeploymentController extends BaseCrudController {
         res.json(createdDeployment);
     };
 
-    private initStatisticsRoutes() {
-        const statisticsRouter = express.Router();
-        statisticsRouter.get("/avgPerUser", asyncErrorWrapper(this.avgPerUser));
-        statisticsRouter.get("/avgPerImage", asyncErrorWrapper(this.avgPerImage));
-        statisticsRouter.get("/totalDeployments", asyncErrorWrapper(this.totalDeployments));
-        statisticsRouter.get("/totalDeploymentsPerImage", asyncErrorWrapper(this.totalDeploymentsPerImage));
-        this.router.use("/statistics", jwtAuthenticationMiddleware, statisticsRouter);
-    }
-
-    private avgPerUser = async (req: Request, res: Response, next: NextFunction) => {
+    private getStatistics = async (req: Request, res: Response, next: NextFunction) => {
+        const {action} = req.body;
+        let result;
         const deploymentService = this.service as typeof DeploymentService;
-        const result = await deploymentService.avgPerUser();
-        res.json(result);
-    };
+        switch (action) {
+            case "avgPerUser":
+                result = await deploymentService.avgPerUser();
+                break;
+            case "avgPerImage":
+                result = await deploymentService.avgPerImage();
+                break;
+            case "totalDeployments":
+                result = await deploymentService.totalDeployments();
+                break;
+            case "totalDeploymentsPerImage":
+                result = await deploymentService.totalDeploymentsPerImage();
+                break;
+        }
 
-    private avgPerImage = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = this.service as typeof DeploymentService;
-        const result = await deploymentService.avgPerImage();
-        res.json(result);
-    };
-
-    private totalDeployments = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = this.service as typeof DeploymentService;
-        const result = await deploymentService.totalDeployments();
-        res.json(result);
-    };
-
-    private totalDeploymentsPerImage = async (req: Request, res: Response, next: NextFunction) => {
-        const deploymentService = this.service as typeof DeploymentService;
-        const result = await deploymentService.totalDeploymentsPerImage();
-        res.json(result);
+        return res.json(result);
     };
 }

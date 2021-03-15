@@ -1,7 +1,10 @@
 import ImageService from "../services/ImageService";
 import BaseCrudController from "./BaseCrudController";
 import {NextFunction, Request, Response} from "express";
-import {combinationValidator, createImageValidator} from "../middlewares/requestValidatiors/imageValidators";
+import {
+    combinationRequestValidator,
+    createImageRequestValidator,
+} from "../middlewares/requestValidatiors/imageValidators";
 import asyncErrorWrapper from "../middlewares/errors/asyncErrorWrapper";
 
 export default class ImageController extends BaseCrudController {
@@ -9,9 +12,13 @@ export default class ImageController extends BaseCrudController {
         super(ImageService);
 
         this.router.get("/secondMostCommon", asyncErrorWrapper(this.getSecondCommonImage));
-        this.router.get("/combination/:length", combinationValidator, asyncErrorWrapper(this.getCombinationByLength));
+        this.router.get(
+            "/combination/:length",
+            combinationRequestValidator,
+            asyncErrorWrapper(this.getCombinationByLength)
+        );
         this.initDefaults({pagination: {}, withFindById: true});
-        this.router.post("/", createImageValidator, asyncErrorWrapper(this.createImage));
+        this.router.post("/", createImageRequestValidator, asyncErrorWrapper(this.createImage));
         this.router.put("/:id", this.updateImage);
     }
 
