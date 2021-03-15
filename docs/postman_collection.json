@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"user1\",\n    \"email\":\"user@email.com\"\n}",
+							"raw": "{\n    \"name\":\"gal23\",\n    \"email\":\"gma233@aisdl.co\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -131,7 +131,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"node\",\n    \"repository\": \"asdasdsad\",\n    \"version\": \"1.0.1\"\n}",
+							"raw": "{\n    \"name\": \"apache\",\n    \"repository\": \"asdasdsad\",\n    \"version\": \"1.0.1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -157,7 +157,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"version\":null\n}",
+							"raw": "{\n    \"name\":\"new name\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -165,13 +165,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/image/6049111d186c8b5fe98ab9e3",
+							"raw": "{{baseUrl}}/image/604e3b0ae6b251b983673a9c",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"image",
-								"6049111d186c8b5fe98ab9e3"
+								"604e3b0ae6b251b983673a9c"
 							]
 						}
 					},
@@ -303,14 +303,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/image/combination/2",
+							"raw": "{{baseUrl}}/image/combination/1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"image",
 								"combination",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -370,7 +370,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+									"raw": "{\n    \"action\": \"avgPerUser\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -378,14 +378,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/deployment/statistics/avgPerUser",
+									"raw": "{{baseUrl}}/deployment/statistics",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"deployment",
-										"statistics",
-										"avgPerUser"
+										"statistics"
 									]
 								}
 							},
@@ -411,7 +410,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+									"raw": "{\n    \"action\": \"avgPerImage\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -419,14 +418,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/deployment/statistics/avgPerImage",
+									"raw": "{{baseUrl}}/deployment/statistics",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"deployment",
-										"statistics",
-										"avgPerImage"
+										"statistics"
 									]
 								}
 							},
@@ -452,7 +450,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"gal\",\n    \"email\": \"gal@gmail.com\",\n    \"metaData\": {\n        \"software\": \"great\"\n    }\n}",
+									"raw": "{\n    \"action\": \"totalDeployments\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -460,14 +458,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/deployment/statistics/totalDeployments",
+									"raw": "{{baseUrl}}/deployment/statistics",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"deployment",
-										"statistics",
-										"totalDeployments"
+										"statistics"
 									]
 								}
 							},
@@ -493,7 +490,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\n    \"action\": \"totalDeploymentsPerImage\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -501,14 +498,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/deployment/statistics/totalDeploymentsPerImage",
+									"raw": "{{baseUrl}}/deployment/statistics",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"deployment",
-										"statistics",
-										"totalDeploymentsPerImage"
+										"statistics"
 									]
 								}
 							},
@@ -523,7 +519,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"imageId\":\"604c805e0521f5ad4ebdb071\",\n    \"userId\":\"604c7eb64092d0acca391a0e\"\n}",
+							"raw": "{\n    \"imageId\":\"604f1f6d9735b219849ebb30\",\n    \"userId\":\"604f1650e779920e6d4354a7\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
