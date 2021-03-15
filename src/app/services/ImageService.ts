@@ -1,6 +1,7 @@
 import {Image, ImageModel} from "../db/models/Image";
 import BaseCrudService from "./BaseCrudService";
 import logger from "../../utils/Logger";
+import CollectionUtils from "../../utils/CollectionUtils";
 
 class ImageService extends BaseCrudService {
     constructor() {
@@ -24,28 +25,8 @@ class ImageService extends BaseCrudService {
 
     getCombinationByLength = async (length: number) => {
         let allImages = (await this.model.find({})).map((image: Image) => image.name);
-        return this.findCombinations(allImages, 0, length);
+        return CollectionUtils.findCombinations(allImages, 0, length);
     };
-
-    findCombinations(arr: string[], startIndex: number, r: number): string[][] {
-        if (r === 1) {
-            const result = [];
-            for (let i = startIndex; i < arr.length; i++) {
-                result.push([arr[i]]);
-            }
-            return result;
-        }
-        let tmpIndex = startIndex;
-        const newResult: string[][] = [];
-        while (tmpIndex < arr.length - r + 1) {
-            const resultForR = this.findCombinations(arr, tmpIndex + 1, r - 1);
-            resultForR.forEach((ar) => {
-                newResult.push([arr[tmpIndex], ...ar]);
-            });
-            tmpIndex++;
-        }
-        return newResult;
-    }
 }
 
 export default new ImageService();
